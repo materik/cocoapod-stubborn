@@ -42,7 +42,7 @@ class StubbornTests: XCTestCase {
     
     func testSuccess() {
         Stubborn.add(url: ".*/get") { request in
-            XCTAssertEqual(request.method, "GET")
+            XCTAssertEqual(request.method, .get)
             XCTAssertNil(request.body)
             XCTAssertEqual(request.url, "https://httpbin.org/get")
             XCTAssertEqual(request.numberOfRequests, 1)
@@ -237,7 +237,7 @@ class StubbornTests: XCTestCase {
         
         let expectation1 = self.expectation(description: "request1")
         Stubborn.unhandledRequest { request in
-            XCTAssertEqual(request.method, "GET")
+            XCTAssertEqual(request.method, .get)
             XCTAssertNil(request.body)
             XCTAssertEqual(request.url, "https://httpbin.org/get")
             XCTAssertNil(request.numberOfRequests)
