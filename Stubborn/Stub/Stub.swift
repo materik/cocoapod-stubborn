@@ -65,7 +65,7 @@ extension Stubborn.Stub: CustomStringConvertible {
         description = "\(description)\n    Url: \(self.url)"
         description = "\(description)\n    QueryString: \(self.queryString ?? QueryString())"
         description = "\(description)\n    Body: \(self.body ?? Stubborn.Body.Dictionary())"
-        description = "\(description)\n    Delay: \(self.delay)"
+        description = "\(description)\n    Delay: \(String(describing: self.delay))"
         description = "\(description)\n})"
         
         return description
