@@ -27,6 +27,10 @@ extension Stubborn {
             self.init(url) { _ in error }
         }
         
+        convenience init(_ url: String, simple: Body.Simple) {
+            self.init(url) { _ in simple }
+        }
+        
         convenience init(_ url: String, resource: Body.Resource) {
             self.init(url) { _ in resource }
         }

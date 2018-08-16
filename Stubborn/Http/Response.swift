@@ -19,7 +19,13 @@ extension Stubborn {
         }
         
         var statusCode: Request.StatusCode {
-            return (self.body as? Body.Error)?.statusCode ?? 200
+            if let error = self.body as? Body.Error {
+                return error.statusCode
+            } else if let statusCode = self.body as? Body.Simple {
+                return statusCode.statusCode
+            } else {
+                return 200
+            }
         }
         var data: Data {
             return self.body.data

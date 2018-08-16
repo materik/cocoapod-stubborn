@@ -89,6 +89,27 @@ class StubbornTests: XCTestCase {
         self.waitForExpectations(timeout: 1, handler: nil)
     }
     
+    func testSimple() {
+        Stubborn.add(url: ".*/get", simple: Stubborn.Body.Simple(202, "Accepted"))
+        
+        let expectation = self.expectation(description: "request")
+        Alamofire.request("https://httpbin.org/get").responseJSON {
+            XCTAssertEqual($0.response?.statusCode, 202)
+            
+            switch $0.result {
+            case .success(let result):
+                if let body = result as? [String: String] {
+                    XCTAssertEqual(body["message"], "Accepted")
+                    expectation.fulfill()
+                }
+            default:
+                XCTAssertTrue(false)
+            }
+        }
+        
+        self.waitForExpectations(timeout: 1, handler: nil)
+    }
+    
     func testNumberOfRequests() {
         let expectation1 = self.expectation(description: "request1")
         let expectation2 = self.expectation(description: "request2")
