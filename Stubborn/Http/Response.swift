@@ -27,6 +27,7 @@ extension Stubborn {
                 return 200
             }
         }
+        
         var data: Data {
             return self.body.data
         }

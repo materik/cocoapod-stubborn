@@ -78,10 +78,29 @@ class StubbornTests: XCTestCase {
             XCTAssertEqual($0.response?.statusCode, 400)
             
             switch $0.result {
-            case .failure(let error):
-                XCTAssertEqual(error.localizedDescription, "Something went wrong")
+            case .failure:
                 expectation.fulfill()
             default:
+                XCTAssertTrue(false)
+            }
+        }
+        
+        self.waitForExpectations(timeout: 1, handler: nil)
+    }
+    
+    func testFailureBody() {
+        Stubborn.add(url: ".*/get", error: Stubborn.Body.Error(500, ["errorCode": "3"]))
+        
+        let expectation = self.expectation(description: "request")
+        Alamofire.request("https://httpbin.org/get").responseJSON {
+            XCTAssertEqual($0.response?.statusCode, 500)
+            
+            if let data = $0.data,
+                let json = try? JSONSerialization.jsonObject(with: data),
+                let errorDict = json as? [String: Any] {
+                XCTAssertEqual(errorDict["errorCode"] as? String, "3")
+                expectation.fulfill()
+            } else {
                 XCTAssertTrue(false)
             }
         }
