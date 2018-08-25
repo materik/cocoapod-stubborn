@@ -1,0 +1,22 @@
+default_platform :ios
+
+platform :ios do |options|
+
+    lane :install do
+        cocoapods(
+            repo_update: true,
+            podfile: "./Tests",
+        )
+    end
+
+    lane :test do
+        scan(
+            clean: true,
+            workspace: "./Tests/Tests.xcworkspace",
+            scheme: "Tests",
+            skip_build: true
+        )
+    end
+
+end
+
